@@ -113,8 +113,6 @@ CREATE TABLE pedido_fotos(
      INSERT INTO entidade(nome,descricao,email,telefone) VALUES('Ruas é conosco', 'Tudo a haver com ruas','ruas@gmail.com','251895786');
      INSERT INTO Categoria(nome,id_entidade) VALUES('Ruas',1);
      INSERT INTO subcategoria(nome,id_categoria,descricao) VALUES('Esgotos',1,'Esgotos');
-     INSERT INTO funcao (descricao) VALUES('Teste');
-     INSERT INTO funcionario (email,nome,password,id_administrador,id_entidade,id_funcao) VALUES('blabl@BLUMPACLAM.RU','Gabriel',1234,1,1,1);
     INSERT INTO pedido (id_utilizador,descricao,dt_criacao,cod_postal,localidade,rua,id_estado,id_subcategoria,id_administrador)
     VALUES (1,'Tampa de esgoto está fora do sitio',TO_DATE('04-12-2018','DD-MM-YYYY'),'4900','CabritaCity','Rua das Cabritas nº666',1,1,1);
      
@@ -167,12 +165,10 @@ CREATE TABLE pedido_fotos(
     
     --Caso de uso: Ver histórico de resoluções--
         --Hisorico geral--
-        Select f.id_funcionario, f.nome, fun.descricao, p.descricao, p.dt_inicio_res, p.dt_fim_res, est.descricao estado, l.localidade, sc.nome, c.nome  funcionario 
-        FROM funcionario f
+        Select e.id_funcionario, e.nome, e.descricao, p.descricao Pedido, p.dt_inicio_res, p.dt_fim_res, est.descricao estado, p.localidade, sc.nome subcategoria, c.nome categoria
+	FROM entidade e
         inner join pedido p on (p.id_funcionario = f.id_funcionario)
         inner join estado est on (est.id_estado = p.id_estado)
-        inner join funcao fun on (fun.id_funcao = f.id_funcao)
-        inner join entidade ent on (ent.id_entidade = f.id_entidade)
         inner join subcategoria sc on (sc.id_subcategoria = p.id_subcategoria)
         inner join categoria c on (sc.id_categoria = c.id_categoria);
     
@@ -220,15 +216,4 @@ CREATE TABLE pedido_fotos(
         inner join categoria c on (c.id_entidade = e.id_entidade)
         inner join subcategoria sc on (sc.id_categoria = c.id_categoria)
         inner join pedido p on (p.id_subcategoria = sc.id_subcategoria)
-
         inner join estado est on (est.id_estado = p.id_estado);
-    
-    --Historico de resoluções dos funcionarios
-    create view historico_funcionario(id_funcionario, nome, descricao, descricao_pedido, dt_inicio_res, dt_finalizacao, estado, localizacao, subcategoria, categoria) as Select f.id_funcionario, f.nome, fun.descricao, p.descricao, p.dt_inicio_res, p.dt_fim_res, est.descricao estado,p.localidade, sc.nome, c.nome funcionario
-    FROM  funcionario f
-        inner join pedido p on (p.id_funcionario = f.id_funcionario)
-        inner join estado est on (est.id_estado = p.id_estado)
-        inner join funcao fun on (fun.id_funcao = f.id_funcao)
-        inner join entidade ent on (ent.id_entidade = f.id_entidade)
-        inner join subcategoria sc on (sc.id_subcategoria = p.id_subcategoria)
-        inner join categoria c on (sc.id_categoria = c.id_categoria);
