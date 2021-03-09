@@ -95,8 +95,8 @@ CREATE TABLE pedido_fotos(
     id_foto NUMBER,
     id_pedido NUMBER ,
     path VARCHAR2(255) NOT NULL,
-    CONSTRAINT pk_pedfot PRIMARY KEY(id_foto, id_pedido),
-    CONSTRAINT fk_pedfot_ped FOREIGN KEY(id_pedido) REFERENCES pedido(id_pedido)
+    CONSTRAINT pk_fot PRIMARY KEY(id_foto),
+    CONSTRAINT fk_ped FOREIGN KEY(id_pedido) REFERENCES pedido(id_pedido)
 );
 
 
