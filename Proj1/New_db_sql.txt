@@ -1,8 +1,6 @@
 DROP TABLE pedido_fotos;
 DROP TABLE pedido;
 DROP TABLE estado;
-DROP TABLE funcionario;
-DROP TABLE funcao;
 DROP TABLE subcategoria;
 DROP TABLE categoria;
 DROP TABLE entidade;
@@ -61,24 +59,6 @@ CREATE TABLE subcategoria(
     CONSTRAINT fk_subcat_cat FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
 );
 
-CREATE TABLE funcao(
-    id_funcao NUMBER,
-    descricao VARCHAR2(25),
-    CONSTRAINT pk_funcao PRIMARY KEY(id_funcao)
-);
-
-CREATE TABLE funcionario(
-    id_funcionario NUMBER,
-    email VARCHAR2(254) NOT NULL,
-    nome VARCHAR2(30) NOT NULL,
-    password VARCHAR2(30) NOT NULL,
-    id_entidade NUMBER,
-    id_funcao NUMBER,
-    CONSTRAINT unique_email_func UNIQUE(email),
-    CONSTRAINT pk_func PRIMARY KEY(id_funcionario),
-    CONSTRAINT fk_func_ent FOREIGN KEY(id_entidade) REFERENCES entidade(id_entidade),
-    CONSTRAINT fk_func_func FOREIGN KEY(id_funcao) REFERENCES funcao(id_funcao)
-);
 
 CREATE TABLE estado(
     id_estado NUMBER ,
@@ -101,14 +81,12 @@ CREATE TABLE pedido(
     dt_aprovacao DATE,
     obs_admin VARCHAR2(200),
     urgencia NUMBER,
-    id_funcionario NUMBER,
     dt_inicio_res DATE,
     dt_fim_res DATE,
     obs_res VARCHAR2(200),
     CONSTRAINT pk_ped PRIMARY KEY(id_pedido),
     CONSTRAINT fk_ped_uti FOREIGN KEY(id_utilizador) REFERENCES utilizador(id_utilizador),
     CONSTRAINT fk_ped_admin FOREIGN KEY(id_administrador) REFERENCES administrador(id_administrador),
-    CONSTRAINT fk_ped_func FOREIGN KEY(id_funcionario) REFERENCES funcionario(id_funcionario),
     CONSTRAINT fk_ped_subcat FOREIGN KEY(id_subcategoria) REFERENCES subcategoria(id_subcategoria),
     CONSTRAINT fk_ped_estado FOREIGN KEY(id_estado) REFERENCES estado(id_estado)
 );
