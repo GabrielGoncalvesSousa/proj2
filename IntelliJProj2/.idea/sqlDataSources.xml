@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="2024f3f4-b898-4c2d-b4b0-f5cb717e2dde" />
+          <option name="name" value="DDL data source" />
+          <option name="parent" value="343d9db6-4d51-422d-a18c-5f7ea2ca2725" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/src/proj2/DAL" />
+            </array>
+          </option>
+        </State>
+      </list>
+    </option>
+  </component>
+</project>
