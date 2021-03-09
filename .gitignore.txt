@@ -1,4 +1,8 @@
 #Proj2 MetaInfo
+<<<<<<< HEAD
 C:\Users\Gabriel\OneDrive - Instituto Politécnico de Viana do Castelo\Escola\4 Ano\2 Semestre\PROJ2\Netbeans\Proj2\src\META-INF
+=======
+/Netbeans/Proj2/src/META-INF
+>>>>>>> master
 
 #
