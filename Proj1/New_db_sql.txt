@@ -7,13 +7,13 @@ DROP TABLE subcategoria;
 DROP TABLE categoria;
 DROP TABLE entidade;
 DROP TABLE utilizador;
-
+DROP TABLE administrador;
 DROP VIEW entidade_pedidos;
 DROP VIEW historico_funcionario;
 
 
 CREATE TABLE utilizador(
-    id_utilizador NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL ,
+    id_utilizador NUMBER,
     estado NUMBER(1) DEFAULT 0,
     email VARCHAR2(254) NOT NULL,
     dt_nasc DATE,
@@ -26,9 +26,16 @@ CREATE TABLE utilizador(
     CONSTRAINT constraint_uti UNIQUE(nome),
     CONSTRAINT pk_id PRIMARY KEY(id_utilizador)
 );
+CREATE TABLE administrador(
+    id_administrador NUMBER,
+    nome VARCHAR2(30) NOT NULL,
+    password VARCHAR(30) NOT NULL,
+    email VARCHAR2(200) NOT NULL,
+    CONSTRAINT pk_admin PRIMARY KEY(id_administrador)
+);
 
 CREATE TABLE entidade(
-    id_entidade NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_entidade NUMBER,
     nome VARCHAR2(30) NOT NULL,
     estado NUMBER(1) DEFAULT 0,
     descricao VARCHAR2(255),
@@ -38,7 +45,7 @@ CREATE TABLE entidade(
 );
 
 CREATE TABLE categoria(
-    id_categoria NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_categoria NUMBER,
     nome VARCHAR2(30) NOT NULL,
     id_entidade NUMBER,
     CONSTRAINT pk_cat PRIMARY KEY(id_categoria),
@@ -46,7 +53,7 @@ CREATE TABLE categoria(
 );
 
 CREATE TABLE subcategoria(
-    id_subcategoria NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_subcategoria NUMBER,
     nome VARCHAR2(30) NOT NULL,
     id_categoria NOT NULL,
     descricao VARCHAR2(254),
@@ -55,34 +62,32 @@ CREATE TABLE subcategoria(
 );
 
 CREATE TABLE funcao(
-    id_funcao NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_funcao NUMBER,
     descricao VARCHAR2(25),
     CONSTRAINT pk_funcao PRIMARY KEY(id_funcao)
 );
 
 CREATE TABLE funcionario(
-    id_funcionario NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_funcionario NUMBER,
     email VARCHAR2(254) NOT NULL,
     nome VARCHAR2(30) NOT NULL,
     password VARCHAR2(30) NOT NULL,
-    id_administrador NUMBER(1),
     id_entidade NUMBER,
     id_funcao NUMBER,
     CONSTRAINT unique_email_func UNIQUE(email),
     CONSTRAINT pk_func PRIMARY KEY(id_funcionario),
-    CONSTRAINT fk_func_admin FOREIGN KEY(id_administrador) REFERENCES funcionario(id_funcionario),
     CONSTRAINT fk_func_ent FOREIGN KEY(id_entidade) REFERENCES entidade(id_entidade),
     CONSTRAINT fk_func_func FOREIGN KEY(id_funcao) REFERENCES funcao(id_funcao)
 );
 
 CREATE TABLE estado(
-    id_estado NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_estado NUMBER ,
     descricao VARCHAR2(25),
     CONSTRAINT pk_estado PRIMARY KEY(id_estado)
 );
 
 CREATE TABLE pedido(
-    id_pedido NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_pedido NUMBER,
     id_utilizador NUMBER NOT NULL,
     descricao VARCHAR2(254),
     dt_criacao DATE,
@@ -102,14 +107,14 @@ CREATE TABLE pedido(
     obs_res VARCHAR2(200),
     CONSTRAINT pk_ped PRIMARY KEY(id_pedido),
     CONSTRAINT fk_ped_uti FOREIGN KEY(id_utilizador) REFERENCES utilizador(id_utilizador),
-    CONSTRAINT fk_ped_admin FOREIGN KEY(id_administrador) REFERENCES funcionario(id_funcionario),
+    CONSTRAINT fk_ped_admin FOREIGN KEY(id_administrador) REFERENCES administrador(id_administrador),
     CONSTRAINT fk_ped_func FOREIGN KEY(id_funcionario) REFERENCES funcionario(id_funcionario),
     CONSTRAINT fk_ped_subcat FOREIGN KEY(id_subcategoria) REFERENCES subcategoria(id_subcategoria),
     CONSTRAINT fk_ped_estado FOREIGN KEY(id_estado) REFERENCES estado(id_estado)
 );
 
 CREATE TABLE pedido_fotos(
-    id_foto NUMBER GENERATED ALWAYS AS IDENTITY START WITH 1 NOT NULL,
+    id_foto NUMBER,
     id_pedido NUMBER ,
     path VARCHAR2(255) NOT NULL,
     CONSTRAINT pk_pedfot PRIMARY KEY(id_foto, id_pedido),
