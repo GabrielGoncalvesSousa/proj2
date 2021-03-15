@@ -3,51 +3,31 @@ DROP TABLE pedido;
 DROP TABLE estado;
 DROP TABLE subcategoria;
 DROP TABLE categoria;
-DROP TABLE entidade;
 DROP TABLE utilizador;
-DROP TABLE administrador;
 DROP VIEW entidade_pedidos;
 DROP VIEW historico_funcionario;
-
 
 CREATE TABLE utilizador(
     id_utilizador NUMBER,
     estado NUMBER(1) DEFAULT 0,
     email VARCHAR2(254) NOT NULL,
-    dt_nasc DATE,
+    nif VARCHAR2(9) NOT NULL,
     password VARCHAR(30) NOT NULL,
     nome VARCHAR2(20) NOT NULL,
+    descricao VARCHAR2(255),
+    telefone VARCHAR2(20),
     cod_postal VARCHAR2(10),
     localidade VARCHAR2(50),
     morada VARCHAR2(200),
+    tipoUtil NUMBER(2),
     CONSTRAINT constraint_email UNIQUE(email),
-    CONSTRAINT constraint_uti UNIQUE(nome),
     CONSTRAINT pk_id PRIMARY KEY(id_utilizador)
-);
-CREATE TABLE administrador(
-    id_administrador NUMBER,
-    nome VARCHAR2(30) NOT NULL,
-    password VARCHAR(30) NOT NULL,
-    email VARCHAR2(200) NOT NULL,
-    CONSTRAINT pk_admin PRIMARY KEY(id_administrador)
-);
-
-CREATE TABLE entidade(
-    id_entidade NUMBER,
-    nome VARCHAR2(30) NOT NULL,
-    estado NUMBER(1) DEFAULT 0,
-    descricao VARCHAR2(255),
-    email VARCHAR2(50),
-    telefone VARCHAR2(20) ,
-    CONSTRAINT pk_ent PRIMARY KEY(id_entidade)
 );
 
 CREATE TABLE categoria(
     id_categoria NUMBER,
     nome VARCHAR2(30) NOT NULL,
-    id_entidade NUMBER,
-    CONSTRAINT pk_cat PRIMARY KEY(id_categoria),
-    CONSTRAINT fk_cat_ent FOREIGN KEY(id_entidade) REFERENCES entidade(id_entidade)
+    CONSTRAINT pk_cat PRIMARY KEY(id_categoria)
 );
 
 CREATE TABLE subcategoria(
@@ -77,7 +57,8 @@ CREATE TABLE pedido(
     coordenadas VARCHAR2(50),
     id_estado NUMBER,
     id_subcategoria NUMBER,
-    id_administrador NUMBER ,
+    id_administrador NUMBER,
+    id_entidade NUMBER,
     dt_aprovacao DATE,
     obs_admin VARCHAR2(200),
     urgencia NUMBER,
@@ -86,7 +67,8 @@ CREATE TABLE pedido(
     obs_res VARCHAR2(200),
     CONSTRAINT pk_ped PRIMARY KEY(id_pedido),
     CONSTRAINT fk_ped_uti FOREIGN KEY(id_utilizador) REFERENCES utilizador(id_utilizador),
-    CONSTRAINT fk_ped_admin FOREIGN KEY(id_administrador) REFERENCES administrador(id_administrador),
+    CONSTRAINT fk_ped_admin FOREIGN KEY(id_administrador) REFERENCES utilizador(id_utilizador),
+    CONSTRAINT fk_ped_enti FOREIGN KEY(id_entidade) REFERENCES utilizador(id_utilizador),
     CONSTRAINT fk_ped_subcat FOREIGN KEY(id_subcategoria) REFERENCES subcategoria(id_subcategoria),
     CONSTRAINT fk_ped_estado FOREIGN KEY(id_estado) REFERENCES estado(id_estado)
 );
@@ -150,7 +132,7 @@ CREATE TABLE pedido_fotos(
         
     
     --Caso de uso: Criar entidade--
-    insert into entidade (nome,descricao,email,telefone) VALUES('Fast VRUM','Limpa Ruas','fast@gmail.com','252859173');
+    insert into entidade (id_entidade,nome,descricao,email,telefone,password) VALUES(1,'Fast VRUM','Limpa Ruas','fast@gmail.com','252859173','4321');
 
 
     --Caso de uso: Gerir utilizadores da plataforma--
