@@ -19,9 +19,12 @@ CREATE TABLE utilizador(
     cod_postal VARCHAR2(10),
     localidade VARCHAR2(50),
     morada VARCHAR2(200),
-    tipoUtil NUMBER(2),
+    tipoutil NUMBER(2),
+    id_categoria NUMBER,
     CONSTRAINT constraint_email UNIQUE(email),
-    CONSTRAINT pk_id PRIMARY KEY(id_utilizador)
+    CONSTRAINT constraint_nif UNIQUE(nif),
+    CONSTRAINT pk_id PRIMARY KEY(id_utilizador),
+    CONSTRAINT fk_utilizador_cat FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
 );
 
 CREATE TABLE categoria(
@@ -87,7 +90,7 @@ CREATE TABLE pedido_fotos(
 --Utilizador Não Registado--
     --Caso de uso: Registar utilizador
     Select COUNT(*)from utilizador where ( (email='banana@gmail.com') OR (nome='Gabriel'));
-    INSERT INTO utilizador(email,dt_nasc,password,nome,cod_postal,localidade,morada) VALUES ('banana@gmail.com',TO_DATE('16-02-1997','DD-MM-YYYY'),'1234','Gabriel','4900-734','BananaCity','Rua das bananeiras nº666');
+    INSERT INTO utilizador(id_utilizador,email,dt_nasc,password,nome,cod_postal,localidade,morada,tipoutil) VALUES (1,'banana@gmail.com',986354982,'1234','Gabriel','4900-734','BananaCity','Rua das bananeiras nº666',1);
 
 --Utilizador--
      --Caso de uso: Registar Reclamação--
