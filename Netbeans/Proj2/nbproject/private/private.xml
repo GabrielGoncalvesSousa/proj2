@@ -3,17 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Utilizador.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Administrador.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Subcategoria.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Pedido.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/META-INF/persistence.xml</file>
             <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Categoria.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Entidade.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/PedidoFotos.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/BLL/AdministradorJpaController.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Estado.java</file>
-            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/Proj2.java</file>
+            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/BLL/UtilizadorJpaController.java</file>
+            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/BLL/CategoriaJpaController.java</file>
+            <file>file:/C:/Users/nunop/Documents/NetBeansProjects/Proj2/src/proj2/DAL/Utilizador.java</file>
         </group>
     </open-files>
 </project-private>

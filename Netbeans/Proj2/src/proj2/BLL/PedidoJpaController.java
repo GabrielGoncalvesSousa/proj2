@@ -11,7 +11,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import proj2.DAL.Administrador;
 import proj2.DAL.Estado;
 import proj2.DAL.Subcategoria;
 import proj2.DAL.Utilizador;
@@ -21,6 +20,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import proj2.BLL.exceptions.NonexistentEntityException;
+import proj2.BLL.exceptions.PreexistingEntityException;
 import proj2.DAL.Pedido;
 
 /**
@@ -38,7 +38,7 @@ public class PedidoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Pedido pedido) {
+    public void create(Pedido pedido) throws PreexistingEntityException, Exception {
         if (pedido.getPedidoFotosList() == null) {
             pedido.setPedidoFotosList(new ArrayList<PedidoFotos>());
         }
@@ -46,11 +46,6 @@ public class PedidoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Administrador idAdministrador = pedido.getIdAdministrador();
-            if (idAdministrador != null) {
-                idAdministrador = em.getReference(idAdministrador.getClass(), idAdministrador.getIdAdministrador());
-                pedido.setIdAdministrador(idAdministrador);
-            }
             Estado idEstado = pedido.getIdEstado();
             if (idEstado != null) {
                 idEstado = em.getReference(idEstado.getClass(), idEstado.getIdEstado());
@@ -61,10 +56,20 @@ public class PedidoJpaController implements Serializable {
                 idSubcategoria = em.getReference(idSubcategoria.getClass(), idSubcategoria.getIdSubcategoria());
                 pedido.setIdSubcategoria(idSubcategoria);
             }
+            Utilizador idAdministrador = pedido.getIdAdministrador();
+            if (idAdministrador != null) {
+                idAdministrador = em.getReference(idAdministrador.getClass(), idAdministrador.getIdUtilizador());
+                pedido.setIdAdministrador(idAdministrador);
+            }
             Utilizador idUtilizador = pedido.getIdUtilizador();
             if (idUtilizador != null) {
                 idUtilizador = em.getReference(idUtilizador.getClass(), idUtilizador.getIdUtilizador());
                 pedido.setIdUtilizador(idUtilizador);
+            }
+            Utilizador idEntidade = pedido.getIdEntidade();
+            if (idEntidade != null) {
+                idEntidade = em.getReference(idEntidade.getClass(), idEntidade.getIdUtilizador());
+                pedido.setIdEntidade(idEntidade);
             }
             List<PedidoFotos> attachedPedidoFotosList = new ArrayList<PedidoFotos>();
             for (PedidoFotos pedidoFotosListPedidoFotosToAttach : pedido.getPedidoFotosList()) {
@@ -73,10 +78,6 @@ public class PedidoJpaController implements Serializable {
             }
             pedido.setPedidoFotosList(attachedPedidoFotosList);
             em.persist(pedido);
-            if (idAdministrador != null) {
-                idAdministrador.getPedidoList().add(pedido);
-                idAdministrador = em.merge(idAdministrador);
-            }
             if (idEstado != null) {
                 idEstado.getPedidoList().add(pedido);
                 idEstado = em.merge(idEstado);
@@ -85,9 +86,17 @@ public class PedidoJpaController implements Serializable {
                 idSubcategoria.getPedidoList().add(pedido);
                 idSubcategoria = em.merge(idSubcategoria);
             }
+            if (idAdministrador != null) {
+                idAdministrador.getPedidoList().add(pedido);
+                idAdministrador = em.merge(idAdministrador);
+            }
             if (idUtilizador != null) {
                 idUtilizador.getPedidoList().add(pedido);
                 idUtilizador = em.merge(idUtilizador);
+            }
+            if (idEntidade != null) {
+                idEntidade.getPedidoList().add(pedido);
+                idEntidade = em.merge(idEntidade);
             }
             for (PedidoFotos pedidoFotosListPedidoFotos : pedido.getPedidoFotosList()) {
                 Pedido oldIdPedidoOfPedidoFotosListPedidoFotos = pedidoFotosListPedidoFotos.getIdPedido();
@@ -99,6 +108,11 @@ public class PedidoJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findPedido(pedido.getIdPedido()) != null) {
+                throw new PreexistingEntityException("Pedido " + pedido + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -112,20 +126,18 @@ public class PedidoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Pedido persistentPedido = em.find(Pedido.class, pedido.getIdPedido());
-            Administrador idAdministradorOld = persistentPedido.getIdAdministrador();
-            Administrador idAdministradorNew = pedido.getIdAdministrador();
             Estado idEstadoOld = persistentPedido.getIdEstado();
             Estado idEstadoNew = pedido.getIdEstado();
             Subcategoria idSubcategoriaOld = persistentPedido.getIdSubcategoria();
             Subcategoria idSubcategoriaNew = pedido.getIdSubcategoria();
+            Utilizador idAdministradorOld = persistentPedido.getIdAdministrador();
+            Utilizador idAdministradorNew = pedido.getIdAdministrador();
             Utilizador idUtilizadorOld = persistentPedido.getIdUtilizador();
             Utilizador idUtilizadorNew = pedido.getIdUtilizador();
+            Utilizador idEntidadeOld = persistentPedido.getIdEntidade();
+            Utilizador idEntidadeNew = pedido.getIdEntidade();
             List<PedidoFotos> pedidoFotosListOld = persistentPedido.getPedidoFotosList();
             List<PedidoFotos> pedidoFotosListNew = pedido.getPedidoFotosList();
-            if (idAdministradorNew != null) {
-                idAdministradorNew = em.getReference(idAdministradorNew.getClass(), idAdministradorNew.getIdAdministrador());
-                pedido.setIdAdministrador(idAdministradorNew);
-            }
             if (idEstadoNew != null) {
                 idEstadoNew = em.getReference(idEstadoNew.getClass(), idEstadoNew.getIdEstado());
                 pedido.setIdEstado(idEstadoNew);
@@ -134,9 +146,17 @@ public class PedidoJpaController implements Serializable {
                 idSubcategoriaNew = em.getReference(idSubcategoriaNew.getClass(), idSubcategoriaNew.getIdSubcategoria());
                 pedido.setIdSubcategoria(idSubcategoriaNew);
             }
+            if (idAdministradorNew != null) {
+                idAdministradorNew = em.getReference(idAdministradorNew.getClass(), idAdministradorNew.getIdUtilizador());
+                pedido.setIdAdministrador(idAdministradorNew);
+            }
             if (idUtilizadorNew != null) {
                 idUtilizadorNew = em.getReference(idUtilizadorNew.getClass(), idUtilizadorNew.getIdUtilizador());
                 pedido.setIdUtilizador(idUtilizadorNew);
+            }
+            if (idEntidadeNew != null) {
+                idEntidadeNew = em.getReference(idEntidadeNew.getClass(), idEntidadeNew.getIdUtilizador());
+                pedido.setIdEntidade(idEntidadeNew);
             }
             List<PedidoFotos> attachedPedidoFotosListNew = new ArrayList<PedidoFotos>();
             for (PedidoFotos pedidoFotosListNewPedidoFotosToAttach : pedidoFotosListNew) {
@@ -146,14 +166,6 @@ public class PedidoJpaController implements Serializable {
             pedidoFotosListNew = attachedPedidoFotosListNew;
             pedido.setPedidoFotosList(pedidoFotosListNew);
             pedido = em.merge(pedido);
-            if (idAdministradorOld != null && !idAdministradorOld.equals(idAdministradorNew)) {
-                idAdministradorOld.getPedidoList().remove(pedido);
-                idAdministradorOld = em.merge(idAdministradorOld);
-            }
-            if (idAdministradorNew != null && !idAdministradorNew.equals(idAdministradorOld)) {
-                idAdministradorNew.getPedidoList().add(pedido);
-                idAdministradorNew = em.merge(idAdministradorNew);
-            }
             if (idEstadoOld != null && !idEstadoOld.equals(idEstadoNew)) {
                 idEstadoOld.getPedidoList().remove(pedido);
                 idEstadoOld = em.merge(idEstadoOld);
@@ -170,6 +182,14 @@ public class PedidoJpaController implements Serializable {
                 idSubcategoriaNew.getPedidoList().add(pedido);
                 idSubcategoriaNew = em.merge(idSubcategoriaNew);
             }
+            if (idAdministradorOld != null && !idAdministradorOld.equals(idAdministradorNew)) {
+                idAdministradorOld.getPedidoList().remove(pedido);
+                idAdministradorOld = em.merge(idAdministradorOld);
+            }
+            if (idAdministradorNew != null && !idAdministradorNew.equals(idAdministradorOld)) {
+                idAdministradorNew.getPedidoList().add(pedido);
+                idAdministradorNew = em.merge(idAdministradorNew);
+            }
             if (idUtilizadorOld != null && !idUtilizadorOld.equals(idUtilizadorNew)) {
                 idUtilizadorOld.getPedidoList().remove(pedido);
                 idUtilizadorOld = em.merge(idUtilizadorOld);
@@ -177,6 +197,14 @@ public class PedidoJpaController implements Serializable {
             if (idUtilizadorNew != null && !idUtilizadorNew.equals(idUtilizadorOld)) {
                 idUtilizadorNew.getPedidoList().add(pedido);
                 idUtilizadorNew = em.merge(idUtilizadorNew);
+            }
+            if (idEntidadeOld != null && !idEntidadeOld.equals(idEntidadeNew)) {
+                idEntidadeOld.getPedidoList().remove(pedido);
+                idEntidadeOld = em.merge(idEntidadeOld);
+            }
+            if (idEntidadeNew != null && !idEntidadeNew.equals(idEntidadeOld)) {
+                idEntidadeNew.getPedidoList().add(pedido);
+                idEntidadeNew = em.merge(idEntidadeNew);
             }
             for (PedidoFotos pedidoFotosListOldPedidoFotos : pedidoFotosListOld) {
                 if (!pedidoFotosListNew.contains(pedidoFotosListOldPedidoFotos)) {
@@ -199,7 +227,7 @@ public class PedidoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                BigDecimal id = pedido.getIdPedido();
+                int id = pedido.getIdPedido();
                 if (findPedido(id) == null) {
                     throw new NonexistentEntityException("The pedido with id " + id + " no longer exists.");
                 }
@@ -212,7 +240,7 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
-    public void destroy(BigDecimal id) throws NonexistentEntityException {
+    public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -224,11 +252,6 @@ public class PedidoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The pedido with id " + id + " no longer exists.", enfe);
             }
-            Administrador idAdministrador = pedido.getIdAdministrador();
-            if (idAdministrador != null) {
-                idAdministrador.getPedidoList().remove(pedido);
-                idAdministrador = em.merge(idAdministrador);
-            }
             Estado idEstado = pedido.getIdEstado();
             if (idEstado != null) {
                 idEstado.getPedidoList().remove(pedido);
@@ -239,10 +262,20 @@ public class PedidoJpaController implements Serializable {
                 idSubcategoria.getPedidoList().remove(pedido);
                 idSubcategoria = em.merge(idSubcategoria);
             }
+            Utilizador idAdministrador = pedido.getIdAdministrador();
+            if (idAdministrador != null) {
+                idAdministrador.getPedidoList().remove(pedido);
+                idAdministrador = em.merge(idAdministrador);
+            }
             Utilizador idUtilizador = pedido.getIdUtilizador();
             if (idUtilizador != null) {
                 idUtilizador.getPedidoList().remove(pedido);
                 idUtilizador = em.merge(idUtilizador);
+            }
+            Utilizador idEntidade = pedido.getIdEntidade();
+            if (idEntidade != null) {
+                idEntidade.getPedidoList().remove(pedido);
+                idEntidade = em.merge(idEntidade);
             }
             List<PedidoFotos> pedidoFotosList = pedido.getPedidoFotosList();
             for (PedidoFotos pedidoFotosListPedidoFotos : pedidoFotosList) {
@@ -282,7 +315,7 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
-    public Pedido findPedido(BigDecimal id) {
+    public Pedido findPedido(int id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Pedido.class, id);

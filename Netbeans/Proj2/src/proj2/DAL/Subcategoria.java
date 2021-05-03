@@ -43,7 +43,7 @@ public class Subcategoria implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_SUBCATEGORIA")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigDecimal idSubcategoria;
+    private Integer idSubcategoria;
     @Basic(optional = false)
     @Column(name = "NOME")
     private String nome;
@@ -58,20 +58,20 @@ public class Subcategoria implements Serializable {
     public Subcategoria() {
     }
 
-    public Subcategoria(BigDecimal idSubcategoria) {
+    public Subcategoria(Integer idSubcategoria) {
         this.idSubcategoria = idSubcategoria;
     }
 
-    public Subcategoria(BigDecimal idSubcategoria, String nome) {
+    public Subcategoria(Integer idSubcategoria, String nome) {
         this.idSubcategoria = idSubcategoria;
         this.nome = nome;
     }
 
-    public BigDecimal getIdSubcategoria() {
+    public Integer getIdSubcategoria() {
         return idSubcategoria;
     }
 
-    public void setIdSubcategoria(BigDecimal idSubcategoria) {
+    public void setIdSubcategoria(Integer idSubcategoria) {
         this.idSubcategoria = idSubcategoria;
     }
 

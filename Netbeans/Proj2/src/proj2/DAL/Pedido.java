@@ -57,7 +57,7 @@ public class Pedido implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_PEDIDO")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigDecimal idPedido;
+    private Integer idPedido;
     @Column(name = "DESCRICAO")
     private String descricao;
     @Column(name = "DT_CRIACAO")
@@ -88,31 +88,34 @@ public class Pedido implements Serializable {
     private String obsRes;
     @OneToMany(mappedBy = "idPedido")
     private List<PedidoFotos> pedidoFotosList;
-    @JoinColumn(name = "ID_ADMINISTRADOR", referencedColumnName = "ID_ADMINISTRADOR")
-    @ManyToOne
-    private Administrador idAdministrador;
     @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID_ESTADO")
     @ManyToOne
     private Estado idEstado;
     @JoinColumn(name = "ID_SUBCATEGORIA", referencedColumnName = "ID_SUBCATEGORIA")
     @ManyToOne
     private Subcategoria idSubcategoria;
+    @JoinColumn(name = "ID_ADMINISTRADOR", referencedColumnName = "ID_UTILIZADOR")
+    @ManyToOne
+    private Utilizador idAdministrador;
     @JoinColumn(name = "ID_UTILIZADOR", referencedColumnName = "ID_UTILIZADOR")
     @ManyToOne(optional = false)
     private Utilizador idUtilizador;
+    @JoinColumn(name = "ID_ENTIDADE", referencedColumnName = "ID_UTILIZADOR")
+    @ManyToOne
+    private Utilizador idEntidade;
 
     public Pedido() {
     }
 
-    public Pedido(BigDecimal idPedido) {
+    public Pedido(Integer idPedido) {
         this.idPedido = idPedido;
     }
 
-    public BigDecimal getIdPedido() {
+    public Integer getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(BigDecimal idPedido) {
+    public void setIdPedido(Integer idPedido) {
         this.idPedido = idPedido;
     }
 
@@ -221,14 +224,6 @@ public class Pedido implements Serializable {
         this.pedidoFotosList = pedidoFotosList;
     }
 
-    public Administrador getIdAdministrador() {
-        return idAdministrador;
-    }
-
-    public void setIdAdministrador(Administrador idAdministrador) {
-        this.idAdministrador = idAdministrador;
-    }
-
     public Estado getIdEstado() {
         return idEstado;
     }
@@ -245,12 +240,28 @@ public class Pedido implements Serializable {
         this.idSubcategoria = idSubcategoria;
     }
 
+    public Utilizador getIdAdministrador() {
+        return idAdministrador;
+    }
+
+    public void setIdAdministrador(Utilizador idAdministrador) {
+        this.idAdministrador = idAdministrador;
+    }
+
     public Utilizador getIdUtilizador() {
         return idUtilizador;
     }
 
     public void setIdUtilizador(Utilizador idUtilizador) {
         this.idUtilizador = idUtilizador;
+    }
+
+    public Utilizador getIdEntidade() {
+        return idEntidade;
+    }
+
+    public void setIdEntidade(Utilizador idEntidade) {
+        this.idEntidade = idEntidade;
     }
 
     @Override

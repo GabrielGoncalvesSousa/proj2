@@ -39,7 +39,7 @@ public class PedidoFotos implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_FOTO")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigDecimal idFoto;
+    private Integer idFoto;
     @Basic(optional = false)
     @Column(name = "PATH")
     private String path;
@@ -50,20 +50,20 @@ public class PedidoFotos implements Serializable {
     public PedidoFotos() {
     }
 
-    public PedidoFotos(BigDecimal idFoto) {
+    public PedidoFotos(Integer idFoto) {
         this.idFoto = idFoto;
     }
 
-    public PedidoFotos(BigDecimal idFoto, String path) {
+    public PedidoFotos(Integer idFoto, String path) {
         this.idFoto = idFoto;
         this.path = path;
     }
 
-    public BigDecimal getIdFoto() {
+    public Integer getIdFoto() {
         return idFoto;
     }
 
-    public void setIdFoto(BigDecimal idFoto) {
+    public void setIdFoto(Integer idFoto) {
         this.idFoto = idFoto;
     }
 

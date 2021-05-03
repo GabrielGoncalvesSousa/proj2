@@ -14,7 +14,7 @@ public class Proj2UI {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void maineee(String[] args) {
         // TODO code application logic here
     }
     

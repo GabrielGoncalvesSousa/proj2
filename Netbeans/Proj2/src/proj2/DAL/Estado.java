@@ -40,7 +40,7 @@ public class Estado implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_ESTADO")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigDecimal idEstado;
+    private Integer idEstado;
     @Column(name = "DESCRICAO")
     private String descricao;
     @OneToMany(mappedBy = "idEstado")
@@ -49,15 +49,15 @@ public class Estado implements Serializable {
     public Estado() {
     }
 
-    public Estado(BigDecimal idEstado) {
+    public Estado(Integer idEstado) {
         this.idEstado = idEstado;
     }
 
-    public BigDecimal getIdEstado() {
+    public Integer getIdEstado() {
         return idEstado;
     }
 
-    public void setIdEstado(BigDecimal idEstado) {
+    public void setIdEstado(Integer idEstado) {
         this.idEstado = idEstado;
     }
 

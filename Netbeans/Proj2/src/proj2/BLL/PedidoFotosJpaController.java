@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import proj2.BLL.exceptions.NonexistentEntityException;
+import proj2.BLL.exceptions.PreexistingEntityException;
 import proj2.DAL.Pedido;
 import proj2.DAL.PedidoFotos;
 
@@ -33,7 +34,7 @@ public class PedidoFotosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(PedidoFotos pedidoFotos) {
+    public void create(PedidoFotos pedidoFotos) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -49,6 +50,11 @@ public class PedidoFotosJpaController implements Serializable {
                 idPedido = em.merge(idPedido);
             }
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findPedidoFotos(pedidoFotos.getIdFoto()) != null) {
+                throw new PreexistingEntityException("PedidoFotos " + pedidoFotos + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -81,7 +87,7 @@ public class PedidoFotosJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                BigDecimal id = pedidoFotos.getIdFoto();
+                int id = pedidoFotos.getIdFoto();
                 if (findPedidoFotos(id) == null) {
                     throw new NonexistentEntityException("The pedidoFotos with id " + id + " no longer exists.");
                 }
@@ -94,7 +100,7 @@ public class PedidoFotosJpaController implements Serializable {
         }
     }
 
-    public void destroy(BigDecimal id) throws NonexistentEntityException {
+    public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -144,7 +150,7 @@ public class PedidoFotosJpaController implements Serializable {
         }
     }
 
-    public PedidoFotos findPedidoFotos(BigDecimal id) {
+    public PedidoFotos findPedidoFotos(int id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(PedidoFotos.class, id);

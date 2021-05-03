@@ -4,20 +4,62 @@
  * and open the template in the editor.
  */
 package proj2ui;
+import java.awt.Menu;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javax.swing.Box;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import proj2ui.LoginUI.Login;
+import proj2ui.Admin.CriarAdmin;
+import javax.swing.JPanel;
+import proj2ui.Admin.CriarCategoria;
+import proj2ui.Admin.CriarEntidade;
+import proj2ui.Admin.CriarEstado;
+import proj2ui.Admin.CriarSubcategoria;
+import proj2ui.Admin.CriarUtilizador;
+import proj2ui.Admin.ListarEntidade;
+import proj2ui.Admin.ListarUtilizador;
+import proj2ui.Admin.ListarAdmin;
 
 /**
  *
  * @author nunop
  */
-public class MainFrame extends javax.swing.JFrame {
 
+public class MainFrame extends javax.swing.JFrame {
+    private JPanel painelVisivel = null;
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
-        initComponents();
+        
+        initComponents();   
+        JMenu menu = new JMenu();
+        menu.setText("Definições");
+        jMenuBar1.add(Box.createHorizontalGlue());
+        jMenuBar1.add(menu);
+        Login login = new Login(this);
+        this.painelVisivel = login;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+        
     }
 
+    public JPanel getPainelVisivel() {
+        return painelVisivel;
+    }
+
+    public void setPainelVisivel(JPanel painelVisivel) {
+        this.painelVisivel = painelVisivel;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,21 +69,295 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        adminMenu = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        entidadeMenu = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        reclamacoesMenu = new javax.swing.JMenu();
+        utilizadorMenu = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        categoriaMenu = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 884, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 525, Short.MAX_VALUE)
+        );
+
+        jMenuBar1.setBorder(null);
+
+        adminMenu.setText("Admin");
+
+        jMenuItem1.setText("Criar Admin");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        adminMenu.add(jMenuItem1);
+
+        jMenuItem10.setText("Listar Admin");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        adminMenu.add(jMenuItem10);
+
+        jMenuItem8.setText("Criar Estado");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        adminMenu.add(jMenuItem8);
+
+        jMenuBar1.add(adminMenu);
+
+        jMenu2.setText("Home");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem2.setText("Login");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        entidadeMenu.setText("Entidade");
+
+        jMenuItem4.setText("Criar Entidade");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        entidadeMenu.add(jMenuItem4);
+
+        jMenuItem5.setText("Listar Entidade");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        entidadeMenu.add(jMenuItem5);
+
+        jMenuBar1.add(entidadeMenu);
+
+        reclamacoesMenu.setText("Reclamações");
+        jMenuBar1.add(reclamacoesMenu);
+
+        utilizadorMenu.setText("Utilizador");
+
+        jMenuItem6.setText("Criar Utilizador");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        utilizadorMenu.add(jMenuItem6);
+
+        jMenuItem7.setText("Listar Utilizador");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        utilizadorMenu.add(jMenuItem7);
+
+        jMenuBar1.add(utilizadorMenu);
+
+        categoriaMenu.setText("Categoria");
+
+        jMenuItem3.setText("Criar Categoria");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        categoriaMenu.add(jMenuItem3);
+
+        jMenuItem9.setText("Criar Subcategoria");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        categoriaMenu.add(jMenuItem9);
+
+        jMenuBar1.add(categoriaMenu);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(33, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        CriarAdmin admin = new CriarAdmin();
+        this.painelVisivel = admin;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+         this.painelVisivel.setVisible(false);        
+        
+        Login login = new Login(this);
+        this.painelVisivel = login;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        CriarCategoria cat = new CriarCategoria();
+        this.painelVisivel = cat;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        CriarEntidade ent = new CriarEntidade();
+        this.painelVisivel = ent;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        ListarEntidade ent = new ListarEntidade(this);
+        this.painelVisivel = ent;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        CriarUtilizador uti = new CriarUtilizador();
+        this.painelVisivel = uti;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        ListarUtilizador ent = new ListarUtilizador(this);
+        this.painelVisivel = ent;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        this.painelVisivel.setVisible(false);        
+        
+        CriarEstado ent = new CriarEstado();
+        this.painelVisivel = ent;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+         this.painelVisivel.setVisible(false);        
+        
+        CriarSubcategoria ent = new CriarSubcategoria();
+        this.painelVisivel = ent;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+         this.painelVisivel.setVisible(false);        
+        
+        ListarAdmin ent = new ListarAdmin(this);
+        this.painelVisivel = ent;
+        
+        this.painelVisivel.setVisible(true);
+        this.setContentPane(this.painelVisivel);
+        this.repaint();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +395,23 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu adminMenu;
+    private javax.swing.JMenu categoriaMenu;
+    private javax.swing.JMenu entidadeMenu;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu reclamacoesMenu;
+    private javax.swing.JMenu utilizadorMenu;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,8 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,33 +41,32 @@ public class Categoria implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_CATEGORIA")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigDecimal idCategoria;
+    private Integer idCategoria;
     @Basic(optional = false)
     @Column(name = "NOME")
     private String nome;
+    @OneToMany(mappedBy = "idCategoria")
+    private List<Utilizador> utilizadorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
     private List<Subcategoria> subcategoriaList;
-    @JoinColumn(name = "ID_ENTIDADE", referencedColumnName = "ID_ENTIDADE")
-    @ManyToOne
-    private Entidade idEntidade;
 
     public Categoria() {
     }
 
-    public Categoria(BigDecimal idCategoria) {
+    public Categoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
     }
 
-    public Categoria(BigDecimal idCategoria, String nome) {
+    public Categoria(Integer idCategoria, String nome) {
         this.idCategoria = idCategoria;
         this.nome = nome;
     }
 
-    public BigDecimal getIdCategoria() {
+    public Integer getIdCategoria() {
         return idCategoria;
     }
 
-    public void setIdCategoria(BigDecimal idCategoria) {
+    public void setIdCategoria(Integer idCategoria) {
         this.idCategoria = idCategoria;
     }
 
@@ -82,20 +79,21 @@ public class Categoria implements Serializable {
     }
 
     @XmlTransient
+    public List<Utilizador> getUtilizadorList() {
+        return utilizadorList;
+    }
+
+    public void setUtilizadorList(List<Utilizador> utilizadorList) {
+        this.utilizadorList = utilizadorList;
+    }
+
+    @XmlTransient
     public List<Subcategoria> getSubcategoriaList() {
         return subcategoriaList;
     }
 
     public void setSubcategoriaList(List<Subcategoria> subcategoriaList) {
         this.subcategoriaList = subcategoriaList;
-    }
-
-    public Entidade getIdEntidade() {
-        return idEntidade;
-    }
-
-    public void setIdEntidade(Entidade idEntidade) {
-        this.idEntidade = idEntidade;
     }
 
     @Override
